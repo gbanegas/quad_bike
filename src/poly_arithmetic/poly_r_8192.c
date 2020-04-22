@@ -18,19 +18,19 @@ int check_pos(uint32_t pos, uint32_t *positions, size_t size){
 	}
 	return 0;
 }
-poly* create_random_polynomial_with_weight(unsigned int weight) {
-	poly *to_return = create_polynomial();
-	uint32_t *positions = calloc(weight, sizeof(uint32_t));
-	int nr_pos = weight;
+poly create_random_polynomial_with_weight() {
+	poly to_return;
+	memset(to_return.coeffs, 0, 128*sizeof(element_p));
+	uint32_t positions[WEIGHT] = {0};
+	int nr_pos = WEIGHT;
 	while (nr_pos > 0) {
 		uint32_t pos = randombytes_uniform(8192);
-		if(!check_pos(pos, positions, weight)){
-			set_pos(pos, to_return);
+		if(!check_pos(pos, positions, WEIGHT)){
+			set_pos(pos, &to_return);
 			positions[nr_pos] = pos;
 			nr_pos--;
 		}
 	}
-	free(positions);
 	return to_return;
 
 }
@@ -196,7 +196,7 @@ void print_polynomial(poly *polynomial) {
 			idx++;
 		}
 	}
-	printf("\n");
+	//printf("\n");
 
 }
 

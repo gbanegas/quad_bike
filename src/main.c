@@ -15,6 +15,12 @@
 #include "poly_arithmetic/poly_r_8192.h"
 #include "poly_arithmetic/export.h"
 
+#include "quad_bike/matrix.h"
+
+#include "quad_bike/qd_bike.h"
+
+#include "params.h"
+
 int main(void) {
 	puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
 
@@ -22,12 +28,15 @@ int main(void) {
 		return 1;
 	}
 
-	poly *random = create_random_polynomial_with_weight(30);
+	matrix pk;
+	matrix sk;
+	sk = make_matrix(N_0, R_0);
 
-	print_polynomial(random);
+	key_gen(&pk, &sk);
 
-	int result = pop_count(random);
-	printf("weight = %d \n", result);
+	printf("SK: \n");
+	print_matrix(&sk);
+
 	puts("!!! Finish the fish !!!");
 	return EXIT_SUCCESS;
 }
