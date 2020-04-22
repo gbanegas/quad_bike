@@ -11,6 +11,29 @@ poly* create_polynomial() {
 	poly *polynomial = (poly*) calloc(1, sizeof(poly));
 	return polynomial;
 }
+int check_pos(uint32_t pos, uint32_t *positions, size_t size){
+	for(int i = 0; i < size; i++){
+		if(pos == positions[i])
+			return 1;
+	}
+	return 0;
+}
+poly* create_random_polynomial_with_weight(unsigned int weight) {
+	poly *to_return = create_polynomial();
+	uint32_t *positions = calloc(weight, sizeof(uint32_t));
+	int nr_pos = weight;
+	while (nr_pos > 0) {
+		uint32_t pos = randombytes_uniform(8192);
+		if(!check_pos(pos, positions, weight)){
+			set_pos(pos, to_return);
+			positions[nr_pos] = pos;
+			nr_pos--;
+		}
+	}
+	free(positions);
+	return to_return;
+
+}
 
 void set_pos(int pos, poly *polynomial) {
 	element_p one = 1;
@@ -130,13 +153,13 @@ void div_poly(poly *quo, poly *re, const poly *dividend, const poly *divisor) {
 	while (degree_dividend >= degree_divisor) {
 		righ_bit_shift_by_any(temp.coeffs, (degree_dividend - degree_divisor));
 
-	//	print_polynomial(&temp);
+		//	print_polynomial(&temp);
 
 		set_pos(degree_dividend - degree_divisor, quo);
 		//print_polynomial(quo);
 
 		add_poly(&d_copy, &temp, &d_copy);
-	//	print_polynomial(&d_copy);
+		//	print_polynomial(&d_copy);
 		degree_dividend = get_deg(&d_copy);
 
 		temp = *divisor;
@@ -150,9 +173,9 @@ void div_poly(poly *quo, poly *re, const poly *dividend, const poly *divisor) {
 __attribute__((optimize("unroll-loops")))
 int pop_count(const poly *p) {
 	int result = 0;
-	for(int i = 0; i < 128; i ++){
-		result +=__builtin_popcountl(p->coeffs[i]);
- 	}
+	for (int i = 0; i < 128; i++) {
+		result += __builtin_popcountl(p->coeffs[i]);
+	}
 	return result;
 
 }

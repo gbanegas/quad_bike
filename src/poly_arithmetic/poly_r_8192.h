@@ -13,6 +13,8 @@
 #include <string.h>
 #include <stdint.h>
 
+#include <sodium.h>
+
 #include "gf_mul.h"
 #include "gf_bit_op.h"
 #include "export.h"
@@ -20,6 +22,7 @@
 
 extern poly * create_polynomial();
 
+extern poly * create_random_polynomial_with_weight(unsigned int weight);
 
 extern void set_pos(int pos, poly *polynomial);
 
