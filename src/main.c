@@ -36,6 +36,8 @@ int main(void) {
 
 	printf("SK: \n");
 	print_matrix(&sk);
+	printf("\n--\n Pk \n");
+	print_matrix(&pk);
 
 	puts("!!! Finish the fish !!!");
 	return EXIT_SUCCESS;

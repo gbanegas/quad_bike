@@ -14,7 +14,11 @@ int key_gen(matrix *pk, matrix *sk) {
 		}
 	}
 
-	print_matrix(sk);
+	copy_matrix(pk, sk);
+
+	echelon_form(pk);
+
+
 
 
 	return 0;

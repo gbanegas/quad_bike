@@ -13,9 +13,22 @@ matrix make_matrix(uint32_t n_rows, uint32_t n_cols) {
 	m.rows = n_rows;
 	m.cols = n_cols;
 
-	memset(m.data, 0, N_0*R_0*sizeof(poly));
+	memset(m.data, 0, N_0 * R_0 * sizeof(poly));
 
 	return m;
+
+}
+
+void copy_matrix(matrix *result, matrix *to_copy) {
+
+	result->cols = to_copy->cols;
+	result->rows = to_copy->rows;
+	for (int i = 0; i < to_copy->rows; i++) {
+		for (int j = 0; j < to_copy->cols; j++) {
+			result->data[i * to_copy->cols + j] = to_copy->data[i
+					* to_copy->cols + j];
+		}
+	}
 
 }
 
@@ -90,13 +103,18 @@ void echelon_form(matrix *a) {
 
 			if (r == lead) {
 				for (c = 0; c < ncols; c++) {
-					div_poly(&a->data[r * ncols + c], 0, &a->data[r * ncols + c], &d); // make pivot = 1
+					div_poly(&a->data[r * ncols + c], 0,
+							&a->data[r * ncols + c], &d); // make pivot = 1
 				}
 			} else {
 				for (c = 0; c < ncols; c++) {
-				//	a->data[r * ncols + c] ^= gf_mult(a->data[lead * ncols + c],
-				//			m); // make other = 0
-					//TODO: Verify
+					poly *tmp_mul = create_polynomial();
+					poly *tmp_sum = create_polynomial();
+					mul_poly(tmp_mul, &a->data[lead * ncols + c], &m);
+					add_poly(tmp_sum, &a->data[r * ncols + c], tmp_mul);
+					a->data[r * ncols + c] = *tmp_sum;
+					free(tmp_mul);
+					free(tmp_sum);
 				}
 			}
 		}

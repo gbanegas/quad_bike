@@ -27,4 +27,8 @@ void free_matrix(matrix *mat);
 
 void print_matrix(matrix *mat);
 
+void copy_matrix(matrix *result, matrix *to_copy);
+
+void echelon_form(matrix *a);
+
 #endif /* QUAD_BIKE_MATRIX_H_ */
