@@ -20,7 +20,7 @@ struct matrix {
     poly* data;
 };
 typedef struct matrix matrix;
-matrix * generate_matrix(uint32_t n_rows, uint32_t n_cols);
+matrix * make_matrix(uint32_t n_rows, uint32_t n_cols);
 
 void free_matrix(matrix *mat);
 
